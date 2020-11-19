@@ -28,8 +28,7 @@ public class MemberDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = memberService.findMemberByUsername(username)
-                .orElseThrow(() -> new BadCredentialsException("用户名或者密码输入错误"));
+        Member member = memberService.findMemberByUsername(username).orElseGet(Member::new);
 
         MemberDetails memberDetails = new MemberDetails();
         BeanUtils.copyProperties(member, memberDetails);

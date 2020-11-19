@@ -1,17 +1,24 @@
 package com.lxiaocode.boardgame.auth.config;
 
+import com.lxiaocode.boardgame.auth.TokenUtil;
+import com.lxiaocode.boardgame.auth.domain.MemberDetails;
 import com.lxiaocode.boardgame.auth.filter.JsonAuthenticationFilter;
 import com.lxiaocode.boardgame.auth.service.MemberDetailsService;
+import com.lxiaocode.boardgame.common.response.ApiCode;
+import com.lxiaocode.boardgame.common.response.DefaultApiCode;
+import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.common.util.ResponseUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.*;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.HashMap;
 
 /**
  * @author lixiaofeng
@@ -32,16 +39,39 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * 处理 JSON 形式登录的过滤器
+     * @return
+     * @throws Exception
+     */
     public JsonAuthenticationFilter jsonAuthenticationFilter() throws Exception {
         JsonAuthenticationFilter jsonAuthenticationFilter = new JsonAuthenticationFilter();
 
         jsonAuthenticationFilter.setAuthenticationSuccessHandler((request, response, authentication) -> {
             // TODO 登录成功处理
-            ResponseUtil.send(response, "登录成功");
+            String userId = ((MemberDetails) authentication.getPrincipal()).getId();
+            TokenUtil.Token token = TokenUtil.createToken(userId);
+
+            Result result = Result.success("登录成功").addResult(token);
+            ResponseUtil.send(response, result);
         });
-        jsonAuthenticationFilter.setAuthenticationFailureHandler((request, response, authentication) -> {
-            // TODO 登录失败处理
-            ResponseUtil.send(response, "登录失败");
+        jsonAuthenticationFilter.setAuthenticationFailureHandler((request, response, exception) -> {
+            Result result;
+
+            if (exception instanceof LockedException){
+                result = Result.fail(DefaultApiCode.LOGIN_FAIL, "账户被锁定");
+            }else if (exception instanceof CredentialsExpiredException){
+                result = Result.fail(DefaultApiCode.LOGIN_FAIL, "密码过期");
+            }else if (exception instanceof AccountExpiredException){
+                result = Result.fail(DefaultApiCode.LOGIN_FAIL, "账户过期");
+            }else if (exception instanceof DisabledException){
+                result = Result.fail(DefaultApiCode.LOGIN_FAIL, "账户被禁用");
+            }else if (exception instanceof BadCredentialsException){
+                result = Result.fail(DefaultApiCode.LOGIN_FAIL, "用户名或者密码输入错误");
+            }else {
+                result = Result.fail(DefaultApiCode.LOGIN_FAIL);
+            }
+            ResponseUtil.send(response, result);
         });
 
         jsonAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
@@ -68,7 +98,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                .csrf().disable();
+                .csrf().disable()
+                .cors();
 
         http.addFilterAt(jsonAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
