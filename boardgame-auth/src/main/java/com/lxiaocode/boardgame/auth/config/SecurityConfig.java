@@ -4,21 +4,21 @@ import com.lxiaocode.boardgame.auth.TokenUtil;
 import com.lxiaocode.boardgame.auth.domain.MemberDetails;
 import com.lxiaocode.boardgame.auth.filter.JsonAuthenticationFilter;
 import com.lxiaocode.boardgame.auth.service.MemberDetailsService;
-import com.lxiaocode.boardgame.common.response.ApiCode;
 import com.lxiaocode.boardgame.common.response.DefaultApiCode;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.common.util.ResponseUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.*;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.HashMap;
 
 /**
  * @author lixiaofeng
@@ -48,7 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         JsonAuthenticationFilter jsonAuthenticationFilter = new JsonAuthenticationFilter();
 
         jsonAuthenticationFilter.setAuthenticationSuccessHandler((request, response, authentication) -> {
-            // TODO 登录成功处理
             String userId = ((MemberDetails) authentication.getPrincipal()).getId();
             TokenUtil.Token token = TokenUtil.createToken(userId);
 
@@ -90,6 +89,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         memberAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
 
         auth.authenticationProvider(memberAuthenticationProvider);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        // AuthenticationFilter 将忽略以下路径
+        web.ignoring().antMatchers("/swagger-ui.html",
+                "/swagger-resources/**",
+                "/swagger.json",
+                "/v2/api-docs/**",
+                "/webjars/**",
+                "/config/**",
+                "/css/**",
+                "/fonts/**",
+                "/img/**",
+                "/image/**",
+                "/images/**",
+                "/static/**",
+                "/js/**");
+
+        web.ignoring().antMatchers(
+                HttpMethod.POST,
+                "/api/member/register");
+        web.ignoring().antMatchers(
+                HttpMethod.GET,"/admin/token");
     }
 
     @Override
