@@ -51,6 +51,14 @@ public class Result implements Serializable {
         return result;
     }
 
+    public static Result error(String path, String exceptionMsg) {
+        return error(DefaultApiCode.FAIL, path, exceptionMsg);
+    }
+
+    public static Result error(ApiCode apiCode, String path, String exceptionMsg) {
+        return new ErrorResult(apiCode, path, exceptionMsg);
+    }
+
     public <T> JsonResult<T> addResult(T data) {
         JsonResult<T> jsonResult = new JsonResult<T>();
         jsonResult.code = this.code;
