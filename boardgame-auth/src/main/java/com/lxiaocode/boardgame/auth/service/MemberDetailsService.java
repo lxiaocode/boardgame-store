@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * @author lixiaofeng
  * @date 2020/11/17 下午7:34
@@ -27,12 +29,21 @@ public class MemberDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         Member member = memberService.findMemberByUsername(username).orElseGet(Member::new);
 
         MemberDetails memberDetails = new MemberDetails();
         BeanUtils.copyProperties(member, memberDetails);
         // TODO 加载权限
         return memberDetails;
+    }
+
+    public Optional<UserDetails> loadUserByUserId(String userId) {
+        return memberService.findMemberByUserId(userId).map(member -> {
+            MemberDetails memberDetails = new MemberDetails();
+            BeanUtils.copyProperties(member, memberDetails);
+            // TODO 加载权限
+            return memberDetails;
+        });
     }
 }

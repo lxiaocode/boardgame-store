@@ -1,12 +1,11 @@
 package com.lxiaocode.boardgame.api.controller.member;
 
+import com.lxiaocode.boardgame.auth.domain.MemberDetails;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.member.biz.MemberAction;
 import com.lxiaocode.boardgame.member.domain.dto.RegisterDTO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -29,5 +28,12 @@ public class MemberController {
     @PostMapping("/register")
     public Result register(@RequestBody @Valid RegisterDTO registerDTO) {
         return memberAction.register(registerDTO);
+    }
+
+    @GetMapping("/info")
+    public Result getMemberInformation(Authentication authentication) {
+        String userId = ((MemberDetails) authentication.getPrincipal()).getId();
+        System.out.println(userId);
+        return Result.success();
     }
 }

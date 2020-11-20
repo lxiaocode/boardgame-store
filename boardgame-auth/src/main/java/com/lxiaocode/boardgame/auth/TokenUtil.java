@@ -12,6 +12,7 @@ import lombok.ToString;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.Option;
 import java.util.Date;
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class TokenUtil {
 
     public static final long REFRESH_TOKEN_EXPIRATION_TIME = 7 * 24 * 3600000;
 
-    private static SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
+    private static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
     /**
      * create a token
@@ -91,12 +92,12 @@ public class TokenUtil {
      * @param token
      * @return
      */
-    public static String getUserIdByToken(String token){
+    public static Optional<String> getUserIdByToken(String token){
         Claims claims =
                 Optional.ofNullable(getClaimsFromToken(token)).orElseThrow(() -> new LoginException(DefaultApiCode.TOKEN_AUTHENTICATION_FAIL));
 
         String userId = claims.getSubject();
-        return userId;
+        return Optional.ofNullable(userId);
     }
 
     public static Date getExpirationByToken(String token) {

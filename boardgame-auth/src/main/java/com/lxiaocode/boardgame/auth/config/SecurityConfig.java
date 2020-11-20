@@ -3,7 +3,9 @@ package com.lxiaocode.boardgame.auth.config;
 import com.lxiaocode.boardgame.auth.TokenUtil;
 import com.lxiaocode.boardgame.auth.domain.MemberDetails;
 import com.lxiaocode.boardgame.auth.exception.LoginException;
+import com.lxiaocode.boardgame.auth.filter.JWTAuthenticationFilter;
 import com.lxiaocode.boardgame.auth.filter.JsonAuthenticationFilter;
+import com.lxiaocode.boardgame.auth.handler.JsonAuthenticationEntryPoint;
 import com.lxiaocode.boardgame.auth.service.MemberDetailsService;
 import com.lxiaocode.boardgame.common.response.ApiCode;
 import com.lxiaocode.boardgame.common.response.DefaultApiCode;
@@ -41,12 +43,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public JsonAuthenticationEntryPoint jsonAuthenticationEntryPoint() {
+        return new JsonAuthenticationEntryPoint();
+    }
+
     /**
      * 处理 JSON 形式登录的过滤器
      * @return
      * @throws Exception
      */
-    public JsonAuthenticationFilter jsonAuthenticationFilter() throws Exception {
+    private JsonAuthenticationFilter jsonAuthenticationFilter() throws Exception {
         JsonAuthenticationFilter jsonAuthenticationFilter = new JsonAuthenticationFilter();
 
         jsonAuthenticationFilter.setAuthenticationSuccessHandler((request, response, authentication) -> {
@@ -77,6 +84,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         jsonAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
         return jsonAuthenticationFilter;
+    }
+
+    /**
+     * 处理 JWT 形式登录的过滤器
+     * @return
+     * @throws Exception
+     */
+    private JWTAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+        JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManagerBean());
+
+        jwtAuthenticationFilter.setUserDetailsService(memberDetailsService);
+        jwtAuthenticationFilter.setAuthenticationEntryPoint(jsonAuthenticationEntryPoint());
+
+        return jwtAuthenticationFilter;
     }
 
     @Override
@@ -128,18 +149,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // 权限异常处理
         http.exceptionHandling()
-                .authenticationEntryPoint((request, response, e) -> {
-                    Result result;
-                    if (e instanceof LoginException){
-                        result = Result.fail(DefaultApiCode.TOKEN_EXPIRED);
-                    } else {
-                        result = Result.fail(DefaultApiCode.UNAUTHORIZED, "未登录，无法访问");
-                    }
-                    ResponseUtil.send(response, result);
-                })
+                .authenticationEntryPoint(jsonAuthenticationEntryPoint())
                 .accessDeniedHandler((request, response, exception) -> ResponseUtil.send(response, Result.fail(DefaultApiCode.UNAUTHORIZED)));
 
         // 添加过滤器
         http.addFilterAt(jsonAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

@@ -36,6 +36,16 @@ public class MemberService {
     }
 
     /**
+     * query the member by user id.
+     * @param userId
+     * @return
+     */
+    public Optional<Member> findMemberByUserId(String userId) {
+        Member member = memberMapper.selectById(userId);
+        return Optional.ofNullable(member);
+    }
+
+    /**
      * save member information
      * @return
      */
