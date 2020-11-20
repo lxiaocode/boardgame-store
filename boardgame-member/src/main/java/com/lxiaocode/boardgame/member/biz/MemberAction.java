@@ -4,6 +4,7 @@ import com.lxiaocode.boardgame.common.response.DefaultApiCode;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.member.domain.Member;
 import com.lxiaocode.boardgame.member.domain.dto.RegisterDTO;
+import com.lxiaocode.boardgame.member.domain.vo.MemberInfoVO;
 import com.lxiaocode.boardgame.member.service.MemberService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,5 +34,13 @@ public class MemberAction {
         member.setAvatar("http://img.lxiaocode.com/123456789.png");
         memberService.saveMember(member);
         return Result.success("注册成功");
+    }
+
+    public Result getMemberInformation(String userId) {
+        MemberInfoVO vo = new MemberInfoVO();
+        Member member = memberService.findMemberByUserId(userId).get();
+        BeanUtils.copyProperties(member, vo);
+
+        return Result.success().addResult(vo);
     }
 }

@@ -131,9 +131,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/static/**",
                 "/js/**");
 
-//        web.ignoring().antMatchers(
-//                HttpMethod.POST,
-//                "/api/member/register");
+        web.ignoring().antMatchers(
+                HttpMethod.POST,
+                "/api/member/register");
         web.ignoring().antMatchers(
                 HttpMethod.GET,"/admin/token");
     }
