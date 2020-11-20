@@ -16,6 +16,8 @@ public enum DefaultApiCode implements ApiCode {
     TOKEN_AUTHENTICATION_FAIL("A0220", "用户身份校验失败"),
     TOKEN_EXPIRED("A0230", "用户登录已过期"),
 
+    UNAUTHORIZED("A0301", "访问未授权"),
+
     CALIBRATION_FAIL("A0400", "用户请求参数错误");
 
     private String code;

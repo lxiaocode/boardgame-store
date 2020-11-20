@@ -2,8 +2,10 @@ package com.lxiaocode.boardgame.auth.config;
 
 import com.lxiaocode.boardgame.auth.TokenUtil;
 import com.lxiaocode.boardgame.auth.domain.MemberDetails;
+import com.lxiaocode.boardgame.auth.exception.LoginException;
 import com.lxiaocode.boardgame.auth.filter.JsonAuthenticationFilter;
 import com.lxiaocode.boardgame.auth.service.MemberDetailsService;
+import com.lxiaocode.boardgame.common.response.ApiCode;
 import com.lxiaocode.boardgame.common.response.DefaultApiCode;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.common.util.ResponseUtil;
@@ -108,9 +110,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/static/**",
                 "/js/**");
 
-        web.ignoring().antMatchers(
-                HttpMethod.POST,
-                "/api/member/register");
+//        web.ignoring().antMatchers(
+//                HttpMethod.POST,
+//                "/api/member/register");
         web.ignoring().antMatchers(
                 HttpMethod.GET,"/admin/token");
     }
@@ -124,6 +126,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .cors();
 
+        // 权限异常处理
+        http.exceptionHandling()
+                .authenticationEntryPoint((request, response, e) -> {
+                    Result result;
+                    if (e instanceof LoginException){
+                        result = Result.fail(DefaultApiCode.TOKEN_EXPIRED);
+                    } else {
+                        result = Result.fail(DefaultApiCode.UNAUTHORIZED, "未登录，无法访问");
+                    }
+                    ResponseUtil.send(response, result);
+                })
+                .accessDeniedHandler((request, response, exception) -> ResponseUtil.send(response, Result.fail(DefaultApiCode.UNAUTHORIZED)));
+
+        // 添加过滤器
         http.addFilterAt(jsonAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
