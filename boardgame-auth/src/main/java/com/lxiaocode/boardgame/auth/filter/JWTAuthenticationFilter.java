@@ -8,8 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.util.StringUtils;
@@ -50,7 +48,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
             this.authenticationEntryPoint.commence(request, response, e);
         }
 
-        memberDetailsService.loadUserByUserId(userId).ifPresent(memberDetails -> {
+        memberDetailsService.loadUserByMemberId(userId).ifPresent(memberDetails -> {
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
             // 存入 SecurityContext

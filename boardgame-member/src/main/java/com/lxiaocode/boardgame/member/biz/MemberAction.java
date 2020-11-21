@@ -24,6 +24,11 @@ public class MemberAction {
         this.memberService = memberService;
     }
 
+    /**
+     * 用户会员注册
+     * @param dto
+     * @return
+     */
     public Result register(RegisterDTO dto) {
         if (! memberService.checkUniqueMember(dto)){
             return Result.fail(DefaultApiCode.MEMBER_EXISTS);
@@ -36,9 +41,14 @@ public class MemberAction {
         return Result.success("注册成功");
     }
 
-    public Result getMemberInformation(String userId) {
+    /**
+     * 获取用户信息
+     * @param memberId
+     * @return
+     */
+    public Result getMemberInformation(String memberId) {
         MemberInfoVO vo = new MemberInfoVO();
-        Member member = memberService.findMemberByUserId(userId).get();
+        Member member = memberService.findMemberByMemberId(memberId).get();
         BeanUtils.copyProperties(member, vo);
 
         return Result.success().addResult(vo);

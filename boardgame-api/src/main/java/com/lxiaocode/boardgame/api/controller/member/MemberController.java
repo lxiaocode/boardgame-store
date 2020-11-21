@@ -32,7 +32,7 @@ public class MemberController {
 
     @GetMapping("/info")
     public Result getMemberInformation(Authentication authentication) {
-        String userId = ((MemberDetails) authentication.getPrincipal()).getId();
-        return memberAction.getMemberInformation(userId);
+        String memberId = ((MemberDetails) authentication.getPrincipal()).getId();
+        return memberAction.getMemberInformation(memberId);
     }
 }

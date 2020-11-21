@@ -4,12 +4,8 @@ import com.lxiaocode.boardgame.auth.domain.MemberDetails;
 import com.lxiaocode.boardgame.member.domain.Member;
 import com.lxiaocode.boardgame.member.service.MemberService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -38,8 +34,8 @@ public class MemberDetailsService implements UserDetailsService {
         return memberDetails;
     }
 
-    public Optional<UserDetails> loadUserByUserId(String userId) {
-        return memberService.findMemberByUserId(userId).map(member -> {
+    public Optional<UserDetails> loadUserByMemberId(String memberId) {
+        return memberService.findMemberByMemberId(memberId).map(member -> {
             MemberDetails memberDetails = new MemberDetails();
             BeanUtils.copyProperties(member, memberDetails);
             // TODO 加载权限

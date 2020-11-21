@@ -37,11 +37,11 @@ public class MemberService {
 
     /**
      * query the member by user id.
-     * @param userId
+     * @param memberId
      * @return
      */
-    public Optional<Member> findMemberByUserId(String userId) {
-        Member member = memberMapper.selectById(userId);
+    public Optional<Member> findMemberByMemberId(String memberId) {
+        Member member = memberMapper.selectById(memberId);
         return Optional.ofNullable(member);
     }
 
