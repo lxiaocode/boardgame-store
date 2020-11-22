@@ -6,6 +6,7 @@ import com.lxiaocode.boardgame.member.domain.Member;
 import com.lxiaocode.boardgame.member.domain.dto.RegisterDTO;
 import com.lxiaocode.boardgame.member.domain.vo.MemberInfoVO;
 import com.lxiaocode.boardgame.member.service.MemberService;
+import com.lxiaocode.boardgame.member.service.WalletService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,11 @@ public class MemberAction {
 
     private final MemberService memberService;
 
-    public MemberAction(MemberService memberService) {
+    private final WalletAction walletAction;
+
+    public MemberAction(MemberService memberService, WalletAction walletAction) {
         this.memberService = memberService;
+        this.walletAction = walletAction;
     }
 
     /**
@@ -38,6 +42,8 @@ public class MemberAction {
         member.setPassword(new BCryptPasswordEncoder().encode(member.getPassword()));
         member.setAvatar("http://img.lxiaocode.com/123456789.png");
         memberService.saveMember(member);
+        // init a wallet
+        walletAction.initWalletByMemberId(member.getId());
         return Result.success("注册成功");
     }
 

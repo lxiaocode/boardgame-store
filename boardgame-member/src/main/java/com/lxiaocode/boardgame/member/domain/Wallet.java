@@ -6,6 +6,7 @@ import com.lxiaocode.boardgame.common.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
@@ -23,5 +24,8 @@ public class Wallet extends BaseEntity {
     private String memberId;
 
     @TableField("money")
-    private BigInteger money;
+    private BigDecimal money;
+
+    @TableField("froze")
+    private BigDecimal froze;
 }
