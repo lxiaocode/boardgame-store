@@ -1,0 +1,10 @@
+server:
+  port: 8089
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/boardgame_store?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&useAffectedRows=true&serverTimezone=CTT
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: boardgame_store
+    password: boardgame_store
+mybatis-plus:
+  type-enums-package: com.lxiaocode.boardgame.*.constant
