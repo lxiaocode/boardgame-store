@@ -1,7 +1,10 @@
 package com.lxiaocode.boardgame.member.biz;
 
+import com.lxiaocode.boardgame.member.domain.Wallet;
 import com.lxiaocode.boardgame.member.service.WalletService;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 /**
  * @author lixiaofeng
@@ -18,6 +21,11 @@ public class WalletAction {
     }
 
     public void initWalletByMemberId(String memberId) {
-        walletService.saveWallet(memberId);
+        Wallet wallet = new Wallet();
+        wallet.setMemberId(memberId);
+        wallet.setMoney(BigDecimal.ZERO);
+        wallet.setFroze(BigDecimal.ZERO);
+
+        walletService.saveWallet(wallet);
     }
 }

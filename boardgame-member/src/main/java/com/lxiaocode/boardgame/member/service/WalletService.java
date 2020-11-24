@@ -27,15 +27,10 @@ public class WalletService {
 
     /**
      * init a wallet
-     * @param memberId member id
+     * @param wallet
      * @return wallet id
      */
-    public String saveWallet(String memberId) {
-        Wallet wallet = new Wallet();
-        wallet.setMemberId(memberId);
-        wallet.setMoney(BigDecimal.ZERO);
-        wallet.setFroze(BigDecimal.ZERO);
-
+    public String saveWallet(Wallet wallet) {
         walletMapper.insert(wallet);
         return wallet.getId();
     }
