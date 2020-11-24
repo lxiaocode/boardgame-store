@@ -5,6 +5,10 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
+
 /**
  * @author lixiaofeng
  * @date 2020/11/22 上午11:13
@@ -24,6 +28,13 @@ public enum ProductStatusEnum {
     @EnumValue
     private final int code;
 
+    private static final Map<Integer, ProductStatusEnum> enumMap = new HashMap<>();
+    static {
+        Stream.of(ProductStatusEnum.values()).forEach(item -> {
+            enumMap.put(item.getCode(), item);
+        });
+    }
+
     @JsonCreator
     ProductStatusEnum(String name, int code) {
         this.name = name;
@@ -36,5 +47,9 @@ public enum ProductStatusEnum {
 
     public int getCode() {
         return code;
+    }
+
+    public static ProductStatusEnum getInstance(Integer code){
+        return enumMap.get(code);
     }
 }

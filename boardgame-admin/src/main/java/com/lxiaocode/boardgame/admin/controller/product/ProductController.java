@@ -4,13 +4,16 @@ import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.product.biz.ParameterAction;
 import com.lxiaocode.boardgame.product.biz.ProductAction;
 import com.lxiaocode.boardgame.product.biz.StockpileAction;
+import com.lxiaocode.boardgame.product.domain.ProductMapper;
 import com.lxiaocode.boardgame.product.domain.dto.ParameterDTO;
 import com.lxiaocode.boardgame.product.domain.dto.ProductDTO;
 import com.lxiaocode.boardgame.product.domain.dto.StockpileDTO;
+import com.lxiaocode.boardgame.product.domain.vo.ProductDetailsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lixiaofeng
@@ -20,6 +23,9 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/admin/product")
 public class ProductController {
+
+    @Autowired
+    private ProductMapper productMapper;
 
     @Autowired
     private ProductAction productAction;
@@ -48,5 +54,15 @@ public class ProductController {
     @PutMapping("/{id}/stockpile")
     public Result setStockpile(@PathVariable String id, @RequestBody StockpileDTO stockpileDTO) {
         return stockpileAction.setStockpile(id, stockpileDTO);
+    }
+
+    @PutMapping("/{id}/status")
+    public Result setStatus(@PathVariable String id, @RequestParam int productStatus) {
+        return productAction.updateProductStatus(id, productStatus);
+    }
+
+    @GetMapping("")
+    public Result getProducts(@RequestParam int page, @RequestParam int size) {
+        return productAction.getProducts(page, size);
     }
 }

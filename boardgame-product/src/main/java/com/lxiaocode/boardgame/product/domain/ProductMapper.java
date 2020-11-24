@@ -1,7 +1,10 @@
 package com.lxiaocode.boardgame.product.domain;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lxiaocode.boardgame.product.domain.vo.ProductDetailsVO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @author lixiaofeng
@@ -10,4 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ProductMapper extends BaseMapper<Product> {
+
+    List<ProductDetailsVO> listProductDetails(int start, int size);
 }
