@@ -14,9 +14,9 @@ public class ProductDTO {
 
     private String title;
 
-    private BigDecimal price;
+    private Long price;
 
-    private float rate;
+    private Float rate;
 
     private String description;
 

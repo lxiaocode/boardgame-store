@@ -24,8 +24,8 @@ public class Wallet extends BaseEntity {
     private String memberId;
 
     @TableField("money")
-    private BigDecimal money;
+    private Long money;
 
     @TableField("froze")
-    private BigDecimal froze;
+    private Long froze;
 }

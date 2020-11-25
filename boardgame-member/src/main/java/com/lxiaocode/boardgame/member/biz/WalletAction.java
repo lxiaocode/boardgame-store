@@ -23,8 +23,8 @@ public class WalletAction {
     public void initWalletByMemberId(String memberId) {
         Wallet wallet = new Wallet();
         wallet.setMemberId(memberId);
-        wallet.setMoney(BigDecimal.ZERO);
-        wallet.setFroze(BigDecimal.ZERO);
+        wallet.setMoney(0L);
+        wallet.setFroze(0L);
 
         walletService.saveWallet(wallet);
     }

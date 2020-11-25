@@ -17,7 +17,7 @@ public class Stockpile extends BaseEntity {
 
     private String productId;
 
-    private int amount;
+    private Integer amount;
 
-    private int frozen;
+    private Integer frozen;
 }

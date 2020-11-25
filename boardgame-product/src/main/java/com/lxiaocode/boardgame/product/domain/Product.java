@@ -22,10 +22,10 @@ public class Product extends BaseEntity {
     private String title;
 
     @TableField("price")
-    private BigDecimal price;
+    private Long price;
 
     @TableField("rate")
-    private float rate;
+    private Float rate;
 
     @TableField("description")
     private String description;

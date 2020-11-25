@@ -25,9 +25,6 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private ProductMapper productMapper;
-
-    @Autowired
     private ProductAction productAction;
 
     @Autowired
@@ -57,12 +54,12 @@ public class ProductController {
     }
 
     @PutMapping("/{id}/status")
-    public Result setStatus(@PathVariable String id, @RequestParam int productStatus) {
+    public Result setStatus(@PathVariable String id, @RequestParam Integer productStatus) {
         return productAction.updateProductStatus(id, productStatus);
     }
 
     @GetMapping("")
-    public Result getProducts(@RequestParam int page, @RequestParam int size) {
+    public Result getProducts(@RequestParam Integer page, @RequestParam Integer size) {
         return productAction.getProducts(page, size);
     }
 }

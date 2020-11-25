@@ -26,7 +26,7 @@ public enum ProductStatusEnum {
     @JsonValue
     private final String name;
     @EnumValue
-    private final int code;
+    private final Integer code;
 
     private static final Map<Integer, ProductStatusEnum> enumMap = new HashMap<>();
     static {
@@ -36,7 +36,7 @@ public enum ProductStatusEnum {
     }
 
     @JsonCreator
-    ProductStatusEnum(String name, int code) {
+    ProductStatusEnum(String name, Integer code) {
         this.name = name;
         this.code = code;
     }
