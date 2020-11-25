@@ -1,6 +1,7 @@
 package com.lxiaocode.boardgame.member.biz;
 
 import com.lxiaocode.boardgame.common.response.DefaultApiCode;
+import com.lxiaocode.boardgame.common.response.JsonResult;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.member.domain.Member;
 import com.lxiaocode.boardgame.member.domain.dto.RegisterDTO;
@@ -52,7 +53,7 @@ public class MemberAction {
      * @param memberId
      * @return
      */
-    public Result getMemberInformation(String memberId) {
+    public JsonResult<MemberInfoVO> getMemberInformation(String memberId) {
         MemberInfoVO vo = new MemberInfoVO();
         Member member = memberService.findMemberByMemberId(memberId).get();
         BeanUtils.copyProperties(member, vo);

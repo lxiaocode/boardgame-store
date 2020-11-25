@@ -1,9 +1,12 @@
 package com.lxiaocode.boardgame.admin.controller.product;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lxiaocode.boardgame.common.response.JsonResult;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.product.biz.ParameterAction;
 import com.lxiaocode.boardgame.product.biz.ProductAction;
 import com.lxiaocode.boardgame.product.biz.StockpileAction;
+import com.lxiaocode.boardgame.product.domain.Product;
 import com.lxiaocode.boardgame.product.domain.ProductMapper;
 import com.lxiaocode.boardgame.product.domain.dto.ParameterDTO;
 import com.lxiaocode.boardgame.product.domain.dto.ProductDTO;
@@ -59,7 +62,7 @@ public class ProductController {
     }
 
     @GetMapping("")
-    public Result getProducts(@RequestParam Integer page, @RequestParam Integer size) {
+    public JsonResult<IPage<Product>> getProducts(@RequestParam Integer page, @RequestParam Integer size) {
         return productAction.getProducts(page, size);
     }
 }

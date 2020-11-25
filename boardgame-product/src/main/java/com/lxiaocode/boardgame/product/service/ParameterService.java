@@ -1,9 +1,13 @@
 package com.lxiaocode.boardgame.product.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lxiaocode.boardgame.product.domain.Parameter;
 import com.lxiaocode.boardgame.product.domain.ParameterMapper;
+import com.lxiaocode.boardgame.product.domain.vo.ParameterVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -17,11 +21,18 @@ import java.util.Set;
 @Service
 public class ParameterService extends ServiceImpl<ParameterMapper, Parameter> {
 
+    @Autowired
+    private ParameterMapper parameterMapper;
+
     public void saveParameter(Parameter parameter) {
         super.save(parameter);
     }
 
     public void batchSaveParameter(Set<Parameter> parameters) {
         super.saveBatch(parameters, parameters.size());
+    }
+
+    public IPage<ParameterVO> pageParameter(IPage<ParameterVO> page) {
+        return parameterMapper.pageParameter(page);
     }
 }

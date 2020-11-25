@@ -1,8 +1,13 @@
 package com.lxiaocode.boardgame.product.biz;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lxiaocode.boardgame.common.response.JsonResult;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.product.domain.Parameter;
+import com.lxiaocode.boardgame.product.domain.Product;
 import com.lxiaocode.boardgame.product.domain.dto.ParameterDTO;
+import com.lxiaocode.boardgame.product.domain.vo.ParameterVO;
 import com.lxiaocode.boardgame.product.service.ParameterService;
 import org.hibernate.validator.internal.constraintvalidators.bv.notempty.NotEmptyValidatorForArraysOfLong;
 import org.springframework.beans.BeanUtils;
@@ -47,5 +52,13 @@ public class ParameterAction {
         parameterService.batchSaveParameter(parameterSet);
 
         return Result.success();
+    }
+
+    public JsonResult<IPage<ParameterVO>> getProducts(int page, int size) {
+        IPage<ParameterVO> parameterVOIPage  = new Page<>();
+        parameterVOIPage.setCurrent(page).setSize(size);
+
+        IPage<ParameterVO> result = parameterService.pageParameter(parameterVOIPage);
+        return Result.success().addResult(result);
     }
 }

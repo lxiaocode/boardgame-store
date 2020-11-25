@@ -2,6 +2,7 @@ package com.lxiaocode.boardgame.product.biz;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lxiaocode.boardgame.common.response.JsonResult;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.product.constant.ProductStatusEnum;
 import com.lxiaocode.boardgame.product.domain.Parameter;
@@ -60,7 +61,7 @@ public class ProductAction {
         return Result.success();
     }
 
-    public Result getProducts(int page, int size) {
+    public JsonResult<IPage<Product>> getProducts(int page, int size) {
         IPage<Product> productIPage = new Page<>();
         productIPage.setCurrent(page).setSize(size);
 
