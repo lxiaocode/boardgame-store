@@ -16,6 +16,7 @@
         <module>boardgame-product</module>
         <module>boardgame-auth</module>
         <module>boardgame-admin</module>
+        <module>boardgame-search</module>
     </modules>
 
     <parent>
@@ -38,6 +39,8 @@
         <lombok.version>1.18.12</lombok.version>
         <jjwt.version>0.9.1</jjwt.version>
         <fastjson.version>1.2.22</fastjson.version>
+
+        <elasticsearch.version>7.10.0</elasticsearch.version>
     </properties>
 
     <dependencyManagement>
@@ -108,12 +111,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
