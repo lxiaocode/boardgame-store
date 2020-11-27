@@ -11,7 +11,6 @@ import java.util.List;
  * @date 2020/11/23 上午9:07
  * @blog http://www.lxiaocode.com/
  */
-@Mapper
 public interface ProductMapper extends BaseMapper<Product> {
 
     List<ProductDetailsVO> listProductDetails(int start, int size);

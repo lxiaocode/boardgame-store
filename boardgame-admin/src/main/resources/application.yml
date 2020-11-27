@@ -6,5 +6,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: boardgame_store
     password: boardgame_store
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
 mybatis-plus:
   type-enums-package: com.lxiaocode.boardgame.*.constant

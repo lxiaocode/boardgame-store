@@ -12,6 +12,7 @@
     <artifactId>boardgame-auth</artifactId>
 
     <dependencies>
+        <!-- 内部模块依赖 -->
         <dependency>
             <groupId>com.lxiaocode.boardgame</groupId>
             <artifactId>boardgame-common</artifactId>
@@ -25,21 +26,12 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
             <version>2.3.6.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -1,22 +1,18 @@
 package com.lxiaocode.boardgame.search.service;
 
-import com.alibaba.fastjson.JSON;
 import com.lxiaocode.boardgame.product.domain.Product;
 import com.lxiaocode.boardgame.product.domain.ProductMapper;
-import org.elasticsearch.action.DocWriteResponse;
-import org.elasticsearch.action.bulk.BulkItemResponse;
-import org.elasticsearch.action.bulk.BulkRequest;
-import org.elasticsearch.action.bulk.BulkResponse;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.xcontent.XContentType;
+import com.lxiaocode.boardgame.search.domain.EsProduct;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
+import org.springframework.data.elasticsearch.core.query.IndexQuery;
+import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,33 +27,22 @@ public class EsProductService {
     private ProductMapper productMapper;
 
     @Autowired
-    private RestHighLevelClient restHighLevelClient;
+    private ElasticsearchOperations elasticsearchOperations;
+
+//    @Autowired
+//    private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     public int importAll() throws IOException {
-        BulkRequest bulkRequest = new BulkRequest();
+        EsProduct esProduct = new EsProduct();
         List<Product> products = productMapper.selectList(null);
+        BeanUtils.copyProperties(products.get(1), esProduct);
 
-        for(Product product: products) {
-            bulkRequest.add(new IndexRequest("product").source(JSON.toJSON(product), XContentType.JSON));
-        }
-        BulkResponse bulk = restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
+        IndexQuery indexQuery =
+                new IndexQueryBuilder().withId(esProduct.getId()).withObject(esProduct).build();
+        IndexCoordinates indexCoordinates = IndexCoordinates.of("product");
 
-        for (BulkItemResponse bulkItemResponse : bulk) {
-            if (bulkItemResponse.isFailed()) {
-                BulkItemResponse.Failure failure =
-                        bulkItemResponse.getFailure();
-                System.out.println(failure.getMessage());
-            }
-        }
-
-        Iterator<BulkItemResponse> iterator = bulk.iterator();
-
-        int result = 0;
-        while (iterator.hasNext()){
-            result++;
-            iterator.next();
-
-        }
-        return result;
+        String index = elasticsearchOperations.index(indexQuery, indexCoordinates);
+        System.out.println(index);
+        return 1;
     }
 }
