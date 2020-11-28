@@ -50,4 +50,9 @@ public class StockpileAction {
         IPage<StockpileVO> result = stockpileService.pageStockpile(stockpileIPage);
         return Result.success().addResult(result);
     }
+
+    public JsonResult<StockpileVO> getStockpile(String stockpileId) {
+        StockpileVO stockpileVO = stockpileService.getStockpileVO(stockpileId);
+        return Result.success().addResult(stockpileVO);
+    }
 }

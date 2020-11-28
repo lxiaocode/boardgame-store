@@ -3,6 +3,7 @@ package com.lxiaocode.boardgame.product.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lxiaocode.boardgame.product.constant.ProductStatusEnum;
 import com.lxiaocode.boardgame.product.domain.Stockpile;
 import com.lxiaocode.boardgame.product.domain.StockpileMapper;
 import com.lxiaocode.boardgame.product.domain.vo.StockpileVO;
@@ -31,6 +32,14 @@ public class StockpileService extends ServiceImpl<StockpileMapper, Stockpile> {
     }
 
     public IPage<StockpileVO> pageStockpile(IPage<StockpileVO> page) {
-        return stockpileMapper.pageStockpile(page);
+        return stockpileMapper.pageStockpileVO(page);
+    }
+
+    public StockpileVO getStockpileVO(String id) {
+        return stockpileMapper.getStockpileVO(id);
+    }
+
+    public void deleteStockpileByProduct(String productId) {
+        super.lambdaUpdate().eq(Stockpile::getProductId, productId).remove();
     }
 }

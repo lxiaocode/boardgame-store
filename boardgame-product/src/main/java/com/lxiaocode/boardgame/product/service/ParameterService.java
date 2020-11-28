@@ -35,4 +35,12 @@ public class ParameterService extends ServiceImpl<ParameterMapper, Parameter> {
     public IPage<ParameterVO> pageParameter(IPage<ParameterVO> page) {
         return parameterMapper.pageParameter(page);
     }
+
+    public void deleteParameter(String id) {
+        super.removeById(id);
+    }
+
+    public void deleteParameterByProductId(String productId) {
+        super.lambdaUpdate().eq(Parameter::getProductId, productId).remove();
+    }
 }

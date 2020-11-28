@@ -4,26 +4,30 @@
 
     <resultMap id="StockpileVO" type="com.lxiaocode.boardgame.product.domain.vo.StockpileVO">
         <id column="id" property="id"/>
-        <result column="title" property="title"/>
+        <result column="product_id" property="productId"/>
+        <result column="product_title" property="productTitle"/>
         <result column="amount" property="amount"/>
         <result column="frozen" property="frozen"/>
         <result column="create_time" property="createTime"/>
-        <result column="update_time" property="updateTime"/>
-        <result column="deleted" property="deleted" />
     </resultMap>
 
-    <select id="pageStockpile" resultMap="StockpileVO">
+    <select id="pageStockpileVO" resultMap="StockpileVO">
         SELECT
-            ps.*, p.title
+            id, product_id, product_title, amount, frozen, create_time
         FROM
-            product_stockpile ps
-        left join
-            product p
-        on
-            ps.product_id  = p.id
+            product_stockpile
         WHERE
-            ps.deleted = 0 AND p.deleted = 0
-        ORDER BY
-            p.create_time
+            deleted = 0
+        ORDER BY create_time
     </select>
+
+    <select id="getStockpileVO" resultMap="StockpileVO">
+        SELECT
+            id, product_id, product_title, amount, frozen, create_time
+        FROM
+            product_stockpile
+        WHERE
+            id = #{id} AND deleted = 0
+    </select>
+
 </mapper>

@@ -36,33 +36,83 @@ public class ProductController {
     @Autowired
     private StockpileAction stockpileAction;
 
+    /**
+     * 添加商品信息
+     * @param productDTO
+     * @return
+     */
     @PostMapping("")
     public Result createProduct(@RequestBody ProductDTO productDTO) {
         return productAction.createProduct(productDTO);
     }
 
-    @PostMapping("/{id}/parameters")
-    public Result addParameters(@PathVariable String id, @RequestBody ArrayList<ParameterDTO> parameterDTOS) {
+    /**
+     * 添加商品参数
+     * @param productId
+     * @param parameterDTOS
+     * @return
+     */
+    @PostMapping("/{productId}/parameters")
+    public Result addParameters(@PathVariable String productId, @RequestBody ArrayList<ParameterDTO> parameterDTOS) {
         if (parameterDTOS.size() == 1){
-            return parameterAction.saveParameter(id, parameterDTOS.get(0));
+            return parameterAction.saveParameter(productId, parameterDTOS.get(0));
         }else if (parameterDTOS.size() > 1){
-            return parameterAction.batchSaveParameter(id, parameterDTOS);
+            return parameterAction.batchSaveParameter(productId, parameterDTOS);
         }
         return Result.fail();
     }
 
-    @PutMapping("/{id}/stockpile")
-    public Result setStockpile(@PathVariable String id, @RequestBody StockpileDTO stockpileDTO) {
-        return stockpileAction.setStockpile(id, stockpileDTO);
+    /**
+     * 设置商品库存
+     * @param productId
+     * @param stockpileDTO
+     * @return
+     */
+    @PutMapping("/{productId}/stockpile")
+    public Result setStockpile(@PathVariable String productId, @RequestBody StockpileDTO stockpileDTO) {
+        return stockpileAction.setStockpile(productId, stockpileDTO);
     }
 
-    @PutMapping("/{id}/status")
-    public Result setStatus(@PathVariable String id, @RequestParam Integer productStatus) {
-        return productAction.updateProductStatus(id, productStatus);
+    /**
+     * 切换商品状态
+     * @param productId
+     * @param productStatus
+     * @return
+     */
+    @PutMapping("/{productId}/status")
+    public Result setStatus(@PathVariable String productId, @RequestParam Integer productStatus) {
+        return productAction.updateProductStatus(productId, productStatus);
+    }
+
+    /**
+     * 商品信息编辑
+     * @param productId
+     * @param productDTO
+     * @return
+     */
+    @PutMapping("/{productId}")
+    public Result updateProduct(@PathVariable String productId, @RequestBody ProductDTO productDTO) {
+        return productAction.updateProduct(productId, productDTO);
+    }
+
+    /**
+     * 删除商品
+     * @param productId
+     * @return
+     */
+    @DeleteMapping("/{productId}")
+    public Result deleteProduct(@PathVariable String productId) {
+        return productAction.deleteProduct(productId);
     }
 
     @GetMapping("")
     public JsonResult<IPage<Product>> getProducts(@RequestParam Integer page, @RequestParam Integer size) {
         return productAction.getProducts(page, size);
+    }
+
+    @GetMapping("/{productId}")
+    public JsonResult<Product> getProduct() {
+        // TODO 查询商品
+        return Result.success().addResult(null);
     }
 }

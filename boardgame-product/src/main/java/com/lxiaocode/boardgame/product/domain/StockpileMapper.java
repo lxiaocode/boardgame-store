@@ -13,5 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface StockpileMapper extends BaseMapper<Stockpile> {
-    IPage<StockpileVO> pageStockpile(IPage<StockpileVO> page);
+    IPage<StockpileVO> pageStockpileVO(IPage<StockpileVO> page);
+    StockpileVO getStockpileVO(String id);
 }

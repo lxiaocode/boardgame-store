@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lxiaocode.boardgame.common.domain.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author lixiaofeng
@@ -16,6 +17,8 @@ public class Stockpile extends BaseEntity {
     private static final long serialVersionUID = -5528348379151874395L;
 
     private String productId;
+
+    private String productTitle;
 
     private Integer amount;
 

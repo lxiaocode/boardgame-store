@@ -12,6 +12,7 @@ import com.lxiaocode.boardgame.product.service.ParameterService;
 import org.hibernate.validator.internal.constraintvalidators.bv.notempty.NotEmptyValidatorForArraysOfLong;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.events.Event;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,5 +61,11 @@ public class ParameterAction {
 
         IPage<ParameterVO> result = parameterService.pageParameter(parameterVOIPage);
         return Result.success().addResult(result);
+    }
+
+    public Result deleteParameter(String parameterId) {
+        parameterService.deleteParameter(parameterId);
+
+        return Result.success();
     }
 }

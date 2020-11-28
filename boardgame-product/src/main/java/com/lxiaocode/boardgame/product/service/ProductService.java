@@ -20,6 +20,9 @@ import java.util.List;
 @Service
 public class ProductService extends ServiceImpl<ProductMapper, Product> {
 
+    @Autowired
+    private ProductMapper productMapper;
+
     public void saveProduct(Product product) {
         super.save(product);
     }
@@ -30,5 +33,14 @@ public class ProductService extends ServiceImpl<ProductMapper, Product> {
 
     public IPage<Product> pageProduct(IPage<Product> page) {
         return lambdaQuery().orderByDesc(Product::getCreateTime).page(page);
+    }
+
+    public void deleteProduct(String id) {
+        super.removeById(id);
+    }
+
+
+    public ProductStatusEnum getProductIdStatus(String id) {
+        return productMapper.getProductIdStatus(id);
     }
 }

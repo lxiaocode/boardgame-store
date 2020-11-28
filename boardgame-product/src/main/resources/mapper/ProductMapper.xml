@@ -37,5 +37,8 @@
             p.id = pp.product_id ;
     </select>
 
+    <select id="getProductIdStatus" resultType="com.lxiaocode.boardgame.product.constant.ProductStatusEnum">
+        SELECT status FROM product WHERE id = #{id} AND deleted = 0;
+    </select>
 
 </mapper>
