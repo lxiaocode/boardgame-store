@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lxiaocode.boardgame.search.domain.EsProductMapper">
+
+    <resultMap id="EsProduct" type="com.lxiaocode.boardgame.search.domain.EsProduct">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="price" property="price"/>
+        <result column="rate" property="rate"/>
+        <result column="description" property="description"/>
+        <result column="cover" property="cover"/>
+        <result column="detail" property="detail"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <collection property="parameters" ofType="com.lxiaocode.boardgame.search.domain.EsParameter">
+            <result column="item" property="item"/>
+            <result column="value" property="value"/>
+        </collection>
+    </resultMap>
+
+    <select id="allEsProduct" resultMap="EsProduct">
+        SELECT
+            p.* ,pp.item ,pp.value
+        FROM
+            (SELECT * FROM product where deleted = 0) p
+        LEFT JOIN
+            product_parameter pp
+        on
+            p.id = pp.product_id ;
+    </select>
+
+</mapper>

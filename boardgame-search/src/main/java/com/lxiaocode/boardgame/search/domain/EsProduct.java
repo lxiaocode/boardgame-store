@@ -8,6 +8,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author lixiaofeng
@@ -24,15 +25,19 @@ public class EsProduct implements Serializable {
 
     @Field(type = FieldType.Keyword)
     private String title;
+
     @Field(analyzer = "ik_max_word",type = FieldType.Text)
     private String description;
 
+    @Field(type = FieldType.Long)
     private Long price;
 
     private Float rate;
 
+    @Field(type = FieldType.Keyword)
     private String cover;
 
+    @Field(type = FieldType.Keyword)
     private String detail;
 
     @Field(type = FieldType.Keyword)
@@ -40,5 +45,5 @@ public class EsProduct implements Serializable {
 
     private Date createTime;
 
-    private Integer deleted;
+    private List<EsParameter> parameters;
 }

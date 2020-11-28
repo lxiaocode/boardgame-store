@@ -1,6 +1,7 @@
 package com.lxiaocode.boardgame.admin.controller.product;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lxiaocode.boardgame.common.domain.vo.Page;
 import com.lxiaocode.boardgame.common.response.JsonResult;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.product.biz.ParameterAction;
@@ -12,6 +13,8 @@ import com.lxiaocode.boardgame.product.domain.dto.ParameterDTO;
 import com.lxiaocode.boardgame.product.domain.dto.ProductDTO;
 import com.lxiaocode.boardgame.product.domain.dto.StockpileDTO;
 import com.lxiaocode.boardgame.product.domain.vo.ProductDetailsVO;
+import com.lxiaocode.boardgame.search.biz.EsProductAction;
+import com.lxiaocode.boardgame.search.domain.EsProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +38,9 @@ public class ProductController {
 
     @Autowired
     private StockpileAction stockpileAction;
+
+    @Autowired
+    private EsProductAction esProductAction;
 
     /**
      * 添加商品信息
@@ -105,9 +111,15 @@ public class ProductController {
         return productAction.deleteProduct(productId);
     }
 
+    /**
+     * ES 分页查询，page 从 0 开始
+     * @param page
+     * @param size
+     * @return
+     */
     @GetMapping("")
-    public JsonResult<IPage<Product>> getProducts(@RequestParam Integer page, @RequestParam Integer size) {
-        return productAction.getProducts(page, size);
+    public JsonResult<Page<EsProduct>> getProducts(@RequestParam Integer page, @RequestParam Integer size) {
+        return esProductAction.getProducts(page, size);
     }
 
     @GetMapping("/{productId}")
