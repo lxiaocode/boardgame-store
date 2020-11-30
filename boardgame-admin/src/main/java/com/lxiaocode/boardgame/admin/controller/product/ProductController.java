@@ -15,6 +15,7 @@ import com.lxiaocode.boardgame.product.domain.dto.StockpileDTO;
 import com.lxiaocode.boardgame.product.domain.vo.ProductDetailsVO;
 import com.lxiaocode.boardgame.search.biz.EsProductAction;
 import com.lxiaocode.boardgame.search.domain.EsProduct;
+import com.lxiaocode.boardgame.search.domain.dto.ProductSearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -126,5 +127,31 @@ public class ProductController {
     public JsonResult<Product> getProduct() {
         // TODO 查询商品
         return Result.success().addResult(null);
+    }
+
+    /**
+     * 根据标题搜索
+     * @param page
+     * @param size
+     * @param keyword
+     * @return
+     */
+    @GetMapping("/title")
+    public JsonResult<Page<EsProduct>> searchByTitle(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String keyword) {
+        return esProductAction.searchByTitle(page, size, keyword);
+    }
+
+    /**
+     * 商品信息条件过滤查询
+     * @param page
+     * @param size
+     * @param productSearchDTO
+     * @return
+     */
+    @PostMapping("/search")
+    public JsonResult<Page<EsProduct>> search(@RequestParam Integer page,
+                                              @RequestParam Integer size,
+                                              @RequestBody ProductSearchDTO productSearchDTO) {
+        return esProductAction.search(page, size, productSearchDTO);
     }
 }

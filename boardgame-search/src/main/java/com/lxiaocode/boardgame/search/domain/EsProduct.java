@@ -1,5 +1,6 @@
 package com.lxiaocode.boardgame.search.domain;
 
+import com.lxiaocode.boardgame.product.constant.ProductStatusEnum;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -41,7 +42,7 @@ public class EsProduct implements Serializable {
     private String detail;
 
     @Field(type = FieldType.Keyword)
-    private String status;
+    private ProductStatusEnum status;
 
     private Date createTime;
 
