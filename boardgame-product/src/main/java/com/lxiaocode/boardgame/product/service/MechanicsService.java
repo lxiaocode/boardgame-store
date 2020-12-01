@@ -15,10 +15,6 @@ import java.util.Set;
 @Service
 public class MechanicsService extends ServiceImpl<MechanicsMapper, Mechanics> {
 
-    public void saveMechanics(Mechanics mechanics) {
-        super.save(mechanics);
-    }
-
     public void batchSaveMechanics(Set<Mechanics> mechanics) {
         super.saveBatch(mechanics, mechanics.size());
     }

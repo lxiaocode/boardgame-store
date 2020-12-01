@@ -15,10 +15,6 @@ import java.util.Set;
 @Service
 public class ThemeService extends ServiceImpl<ThemeMapper, Theme> {
 
-    public void saveTheme(Theme theme) {
-        super.save(theme);
-    }
-
     public void batchSaveTheme(Set<Theme> themes) {
         super.saveBatch(themes, themes.size());
     }

@@ -10,6 +10,7 @@ import java.util.List;
  * @blog http://www.lxiaocode.com/
  */
 public interface EsProductMapper extends BaseMapper<EsProduct> {
-
     List<EsProduct> allEsProduct();
+
+    List<EsProduct> getProduct();
 }

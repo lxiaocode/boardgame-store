@@ -1,8 +1,13 @@
 package com.lxiaocode.boardgame.admin.controller.product;
 
+import com.lxiaocode.boardgame.common.domain.vo.Page;
+import com.lxiaocode.boardgame.common.response.JsonResult;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.product.biz.ParameterAction;
 import com.lxiaocode.boardgame.product.domain.dto.*;
+import com.lxiaocode.boardgame.search.biz.EsProductAction;
+import com.lxiaocode.boardgame.search.biz.EsProductParameterAction;
+import com.lxiaocode.boardgame.search.domain.vo.EsProductParameterVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +25,8 @@ public class ParameterController {
 
     @Autowired
     private ParameterAction parameterAction;
+    @Autowired
+    private EsProductParameterAction esProductParameterAction;
 
     /**
      * 添加商品参数
@@ -80,6 +87,18 @@ public class ParameterController {
     @PutMapping("/theme")
     public Result modifyParameterTheme(@RequestBody @Valid ThemeDTO themeDTO) {
         return parameterAction.modifyParameterTheme(themeDTO);
+    }
+
+    @GetMapping("")
+    public JsonResult<Page<EsProductParameterVO>> getProductParameter(@RequestParam Integer page, @RequestParam Integer size) {
+        return esProductParameterAction.getProductParameter(page, size);
+    }
+
+    @GetMapping("/text")
+    public JsonResult<Page<EsProductParameterVO>> searchFullText(@RequestParam Integer page,
+                                                                 @RequestParam Integer size,
+                                                                 @RequestParam String keyword) {
+        return esProductParameterAction.searchFullText(page, size, keyword);
     }
 
 //    @GetMapping("")

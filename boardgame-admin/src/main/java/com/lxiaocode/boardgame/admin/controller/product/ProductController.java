@@ -68,10 +68,13 @@ public class ProductController {
         return productAction.updateProduct(productId, productDTO);
     }
 
+    //==================================================================================================================
+    //      Elasticsearch 接口
+    //==================================================================================================================
     /**
-     * ES 分页查询，page 从 0 开始
-     * @param page
-     * @param size
+     * 分页-商品完整信息(不包含库存)
+     * @param page 当前页数，从 0 开始
+     * @param size 每页大小
      * @return
      */
     @GetMapping("")
@@ -80,14 +83,16 @@ public class ProductController {
     }
 
     /**
-     * 商品全文搜索
+     * 分页-商品信息全文搜索
      * @param page
      * @param size
      * @param keyword
      * @return
      */
     @GetMapping("/text")
-    public JsonResult<Page<EsProduct>> searchFullText(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String keyword) {
+    public JsonResult<Page<EsProduct>> searchFullText(@RequestParam Integer page,
+                                                      @RequestParam Integer size,
+                                                      @RequestParam String keyword) {
         return esProductAction.searchFullText(page, size, keyword);
     }
 

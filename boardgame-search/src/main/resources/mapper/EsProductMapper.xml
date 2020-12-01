@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lxiaocode.boardgame.search.domain.EsProductMapper">
 
+<!--    <resultMap id="EsProduct1" type="com.lxiaocode.boardgame.search.domain.EsProduct">-->
+<!--        <id column="id" property="id"/>-->
+<!--        <result column="title" property="title"/>-->
+<!--        <result column="price" property="price"/>-->
+<!--        <result column="rate" property="rate"/>-->
+<!--        <result column="description" property="description"/>-->
+<!--        <result column="cover" property="cover"/>-->
+<!--        <result column="detail" property="detail"/>-->
+<!--        <result column="status" property="status"/>-->
+<!--        <result column="create_time" property="createTime"/>-->
+<!--        <collection property="parameters" ofType="com.lxiaocode.boardgame.search.domain.EsParameter">-->
+<!--            <result column="item" property="item"/>-->
+<!--            <result column="value" property="value"/>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+
     <resultMap id="EsProduct" type="com.lxiaocode.boardgame.search.domain.EsProduct">
         <id column="id" property="id"/>
         <result column="title" property="title"/>
@@ -12,20 +28,67 @@
         <result column="detail" property="detail"/>
         <result column="status" property="status"/>
         <result column="create_time" property="createTime"/>
-        <collection property="parameters" ofType="com.lxiaocode.boardgame.search.domain.EsParameter">
-            <result column="item" property="item"/>
-            <result column="value" property="value"/>
-        </collection>
+        <association property="parameter" javaType="com.lxiaocode.boardgame.search.domain.EsProductParameter">
+            <result column="min_person" property="minPerson"/>
+            <result column="max_person" property="maxPerson"/>
+            <result column="mode" property="mode"/>
+            <result column="age" property="age"/>
+            <result column="year" property="year"/>
+            <result column="difficulty" property="difficulty"/>
+            <collection property="category" ofType="String">
+                <result column="category_item" />
+            </collection>
+            <collection property="mechanics" ofType="String">
+                <result column="mechanics_item" />
+            </collection>
+            <collection property="theme" ofType="String">
+                <result column="theme_item" />
+            </collection>
+            <collection property="otherParameters" ofType="com.lxiaocode.boardgame.search.domain.EsParameter">
+                <result column="item" property="item"/>
+                <result column="value" property="value"/>
+            </collection>
+        </association>
     </resultMap>
 
-    <select id="allEsProduct" resultMap="EsProduct">
+<!--    <select id="allEsProduct" resultMap="EsProduct1">-->
+<!--        SELECT-->
+<!--            p.* ,pp.item ,pp.value-->
+<!--        FROM-->
+<!--            (SELECT * FROM product where deleted = 0) p-->
+<!--        LEFT JOIN-->
+<!--            product_parameter pp-->
+<!--        on-->
+<!--            p.id = pp.product_id ;-->
+<!--    </select>-->
+
+    <select id="getProduct" resultMap="EsProduct">
         SELECT
-            p.* ,pp.item ,pp.value
+            p.*, ppp.min_person, ppp.max_person, ppp.mode, ppp.age, ppp.year, ppp.difficulty,
+            ppc.value as category_item,
+            ppm.value as mechanics_item,
+            ppt.value as theme_item
         FROM
             (SELECT * FROM product where deleted = 0) p
         LEFT JOIN
+            product_parameter_primary ppp
+        ON
+            p.id = ppp.product_id
+        LEFT JOIN
+            product_parameter_category ppc
+        ON
+            p.id = ppc.product_id
+        LEFT JOIN
+            product_parameter_mechanics ppm
+        ON
+            p.id = ppm.product_id
+        LEFT JOIN
+            product_parameter_theme ppt
+        ON
+            p.id = ppt.product_id
+        LEFT JOIN
             product_parameter pp
-        on
+        ON
             p.id = pp.product_id ;
     </select>
 

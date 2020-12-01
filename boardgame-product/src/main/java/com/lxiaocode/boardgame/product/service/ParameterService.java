@@ -18,23 +18,8 @@ import java.util.Set;
 @Service
 public class ParameterService extends ServiceImpl<ParameterMapper, Parameter> {
 
-    @Autowired
-    private ParameterMapper parameterMapper;
-
-    public void saveParameter(Parameter parameter) {
-        super.save(parameter);
-    }
-
     public void batchSaveParameter(Set<Parameter> parameters) {
         super.saveBatch(parameters, parameters.size());
-    }
-
-    public IPage<ParameterVO> pageParameter(IPage<ParameterVO> page) {
-        return parameterMapper.pageParameter(page);
-    }
-
-    public void deleteParameter(String id) {
-        super.removeById(id);
     }
 
     public void deleteByProductId(String productId) {

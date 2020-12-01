@@ -46,5 +46,5 @@ public class EsProduct implements Serializable {
 
     private Date createTime;
 
-    private List<EsParameter> parameters;
+    private EsProductParameter parameter;
 }

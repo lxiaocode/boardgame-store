@@ -37,6 +37,7 @@ public class ParameterAction {
      * @return
      */
     public Result addProductParameter(ProductParameterDTO productParameterDTO) {
+        String productId = productParameterDTO.getProductId();
         // 添加主要参数
         parameterPrimaryService.saveParameterPrimary(productParameterDTO.getParameterPrimary());
         // 添加分类、机制、主题

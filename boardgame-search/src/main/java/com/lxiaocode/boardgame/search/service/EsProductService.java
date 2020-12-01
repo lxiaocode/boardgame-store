@@ -6,6 +6,7 @@ import com.lxiaocode.boardgame.product.domain.Product;
 import com.lxiaocode.boardgame.product.domain.ProductMapper;
 import com.lxiaocode.boardgame.search.domain.EsProduct;
 import com.lxiaocode.boardgame.search.domain.EsProductMapper;
+import com.lxiaocode.boardgame.search.domain.vo.EsProductParameterVO;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -42,21 +43,11 @@ public class EsProductService {
     private final IndexCoordinates indexCoordinates = IndexCoordinates.of("product");
 
     public int importAll() throws IOException {
-//        EsProduct esProduct = new EsProduct();
-//        List<Product> products = productMapper.selectList(null);
-//        BeanUtils.copyProperties(products.get(1), esProduct);
-//
-//        IndexQuery indexQuery =
-//                new IndexQueryBuilder().withId(esProduct.getId()).withObject(esProduct).build();
-//
-//        String index = elasticsearchOperations.index(indexQuery, indexCoordinates);
-//        System.out.println(index);
-//        return 1;
+        List<EsProduct> esProducts = esProductMapper.getProduct();
 
-        List<EsProduct> esProducts = esProductMapper.allEsProduct();
-        List<IndexQuery> collect = esProducts.stream().map(esProduct -> {
-            return new IndexQueryBuilder().withId(esProduct.getId()).withObject(esProduct).build();
-        }).collect(Collectors.toList());
+        List<IndexQuery> collect = esProducts.stream()
+                .map(esProduct -> new IndexQueryBuilder().withId(esProduct.getId()).withObject(esProduct).build())
+                .collect(Collectors.toList());
 
         List<String> strings = elasticsearchOperations.bulkIndex(collect, indexCoordinates);
         strings.forEach(System.out::println);
@@ -64,6 +55,9 @@ public class EsProductService {
         return 1;
     }
 
+    //==================================================================================================================
+    //          Product 商品信息搜索
+    //==================================================================================================================
     public Page<EsProduct> listProduct(int page, int size) {
 
         Query query = new NativeSearchQueryBuilder()
