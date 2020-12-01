@@ -1,8 +1,6 @@
 package com.lxiaocode.boardgame.product.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lxiaocode.boardgame.product.domain.Parameter;
 import com.lxiaocode.boardgame.product.domain.ParameterMapper;
@@ -10,7 +8,6 @@ import com.lxiaocode.boardgame.product.domain.vo.ParameterVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -40,7 +37,9 @@ public class ParameterService extends ServiceImpl<ParameterMapper, Parameter> {
         super.removeById(id);
     }
 
-    public void deleteParameterByProductId(String productId) {
-        super.lambdaUpdate().eq(Parameter::getProductId, productId).remove();
+    public void deleteByProductId(String productId) {
+        super.lambdaUpdate()
+                .eq(Parameter::getProductId, productId)
+                .remove();
     }
 }

@@ -8,7 +8,6 @@ import com.lxiaocode.boardgame.product.domain.Stockpile;
 import com.lxiaocode.boardgame.product.domain.dto.StockpileDTO;
 import com.lxiaocode.boardgame.product.domain.vo.StockpileVO;
 import com.lxiaocode.boardgame.product.service.StockpileService;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +25,10 @@ public class StockpileAction {
         this.stockpileService = stockpileService;
     }
 
+    /**
+     * 初始化库存
+     * @param productId
+     */
     public void initStockpile(String productId) {
         Stockpile stockpile = new Stockpile();
         stockpile.setProductId(productId);
@@ -35,10 +38,15 @@ public class StockpileAction {
         stockpileService.saveStockpile(stockpile);
     }
 
-    public Result setStockpile(String productId, StockpileDTO stockpileDTO) {
+    /**
+     * 修改商品库存
+     * @param stockpileDTO
+     * @return
+     */
+    public Result setStockpile(StockpileDTO stockpileDTO) {
         Stockpile stockpile = new Stockpile();
         BeanUtils.copyProperties(stockpileDTO, stockpile);
-        stockpileService.updateStockpileByProductId(productId, stockpile);
+        stockpileService.updateByProductId(stockpileDTO.getProductId(), stockpile);
 
         return Result.success();
     }

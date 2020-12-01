@@ -25,7 +25,13 @@ public class StockpileService extends ServiceImpl<StockpileMapper, Stockpile> {
         super.save(stockpile);
     }
 
-    public void updateStockpileByProductId(String productId, Stockpile stockpile) {
+    public void deleteByProductId(String productId) {
+        super.lambdaUpdate()
+                .eq(Stockpile::getProductId, productId)
+                .remove();
+    }
+
+    public void updateByProductId(String productId, Stockpile stockpile) {
         super.lambdaUpdate()
                 .eq(Stockpile::getProductId, productId)
                 .update(stockpile);
@@ -39,7 +45,11 @@ public class StockpileService extends ServiceImpl<StockpileMapper, Stockpile> {
         return stockpileMapper.getStockpileVO(id);
     }
 
-    public void deleteStockpileByProduct(String productId) {
-        super.lambdaUpdate().eq(Stockpile::getProductId, productId).remove();
+    public int getAmountByProductId(String productId) {
+        Stockpile one = super.lambdaQuery()
+                .eq(Stockpile::getProductId, productId)
+                .one();
+
+        return one.getAmount();
     }
 }

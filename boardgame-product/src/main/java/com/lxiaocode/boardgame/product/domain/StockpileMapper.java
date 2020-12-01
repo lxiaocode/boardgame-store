@@ -11,7 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2020/11/23 下午3:58
  * @blog http://www.lxiaocode.com/
  */
-@Mapper
 public interface StockpileMapper extends BaseMapper<Stockpile> {
     IPage<StockpileVO> pageStockpileVO(IPage<StockpileVO> page);
     StockpileVO getStockpileVO(String id);

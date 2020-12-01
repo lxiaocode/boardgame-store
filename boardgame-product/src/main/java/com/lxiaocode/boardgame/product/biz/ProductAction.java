@@ -6,13 +6,8 @@ import com.lxiaocode.boardgame.common.response.DefaultApiCode;
 import com.lxiaocode.boardgame.common.response.JsonResult;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.product.constant.ProductStatusEnum;
-import com.lxiaocode.boardgame.product.domain.Parameter;
-import com.lxiaocode.boardgame.product.domain.ParameterMapper;
 import com.lxiaocode.boardgame.product.domain.Product;
-import com.lxiaocode.boardgame.product.domain.StockpileMapper;
-import com.lxiaocode.boardgame.product.domain.dto.ParameterDTO;
 import com.lxiaocode.boardgame.product.domain.dto.ProductDTO;
-import com.lxiaocode.boardgame.product.service.ParameterService;
 import com.lxiaocode.boardgame.product.service.ProductService;
 import com.lxiaocode.boardgame.product.service.StockpileService;
 import org.springframework.beans.BeanUtils;
@@ -31,54 +26,35 @@ public class ProductAction {
     @Autowired
     private ProductService productService;
     @Autowired
-    private ParameterService parameterService;
-    @Autowired
     private StockpileService stockpileService;
-
     @Autowired
     private StockpileAction stockpileAction;
 
+    @Autowired
+    private ParameterAction parameterAction;
+
 
     /**
-     * create product information
+     * 创建商品
      * @param productDTO
      * @return
      */
-    public Result createProduct(ProductDTO productDTO) {
+    public Result addProduct(ProductDTO productDTO) {
         Product product = new Product();
         BeanUtils.copyProperties(productDTO, product);
         product.setStatus(ProductStatusEnum.UNDER_REVIEW);
         productService.saveProduct(product);
-        // init stockpile
+        // 初始化库存
         stockpileAction.initStockpile(product.getId());
 
         return Result.success();
     }
 
     /**
-     * update the status of the product
+     * 删除商品
      * @param productId
-     * @param code
      * @return
      */
-    public Result updateProductStatus(String productId, int code) {
-        Product product = new Product();
-        product.setId(productId);
-        product.setStatus(ProductStatusEnum.getInstance(code));
-        productService.updateProduct(product);
-
-        return Result.success();
-    }
-
-    public Result updateProduct(String productId, ProductDTO productDTO) {
-        Product product = new Product();
-        product.setId(productId);
-        BeanUtils.copyProperties(productDTO, product);
-        productService.updateProduct(product);
-
-        return Result.success();
-    }
-
     @Transactional
     public Result deleteProduct(String productId) {
         // 判断商品状态，只有 审核中、待售中、售罄 的商品可以删除
@@ -88,11 +64,47 @@ public class ProductAction {
         }
 
         // 先删除商品库存
-        stockpileService.deleteStockpileByProduct(productId);
+        stockpileService.deleteByProductId(productId);
         // 再删除商品参数
-        parameterService.deleteParameterByProductId(productId);
+        parameterAction.deleteProductParameter(productId);
         // 最后删除商品信息
         productService.deleteProduct(productId);
+
+        return Result.success();
+    }
+
+    /**
+     * 修改商品状态
+     * @param productId
+     * @param code
+     * @return
+     */
+    public Result updateProductStatus(String productId, int code) {
+        ProductStatusEnum status = ProductStatusEnum.getInstance(code);
+        if (ProductStatusEnum.SELLING.equals(status)
+                && stockpileService.getAmountByProductId(productId) == 0){
+            return Result.fail(DefaultApiCode.CALIBRATION_FAIL, "库存不足");
+        }
+
+        Product product = new Product();
+        product.setId(productId);
+        product.setStatus(status);
+        productService.updateProduct(product);
+
+        return Result.success();
+    }
+
+    /**
+     * 修改商品信息
+     * @param productId
+     * @param productDTO
+     * @return
+     */
+    public Result updateProduct(String productId, ProductDTO productDTO) {
+        Product product = new Product();
+        product.setId(productId);
+        BeanUtils.copyProperties(productDTO, product);
+        productService.updateProduct(product);
 
         return Result.success();
     }

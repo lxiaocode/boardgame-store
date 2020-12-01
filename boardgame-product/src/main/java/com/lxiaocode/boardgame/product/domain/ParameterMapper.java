@@ -11,7 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2020/11/23 上午10:18
  * @blog http://www.lxiaocode.com/
  */
-@Mapper
 public interface ParameterMapper extends BaseMapper<Parameter> {
 
     IPage<ParameterVO> pageParameter(IPage<ParameterVO> page);
