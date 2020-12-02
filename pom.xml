@@ -17,6 +17,7 @@
         <module>boardgame-auth</module>
         <module>boardgame-admin</module>
         <module>boardgame-search</module>
+        <module>boardgame-manager</module>
     </modules>
 
     <parent>
