@@ -6,8 +6,7 @@ import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.member.domain.Member;
 import com.lxiaocode.boardgame.member.domain.dto.RegisterDTO;
 import com.lxiaocode.boardgame.member.domain.vo.MemberInfoVO;
-import com.lxiaocode.boardgame.member.service.MemberService;
-import com.lxiaocode.boardgame.member.service.WalletService;
+import com.lxiaocode.boardgame.member.service.MemberServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,30 +19,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberAction {
 
-    private final MemberService memberService;
+    private final MemberServiceImpl memberServiceImpl;
 
     private final WalletAction walletAction;
 
-    public MemberAction(MemberService memberService, WalletAction walletAction) {
-        this.memberService = memberService;
+    public MemberAction(MemberServiceImpl memberServiceImpl, WalletAction walletAction) {
+        this.memberServiceImpl = memberServiceImpl;
         this.walletAction = walletAction;
     }
 
     /**
      * 用户会员注册
-     * @param dto
-     * @return
+     * @param dto 会员注册参数
+     * @return Result
      */
     public Result register(RegisterDTO dto) {
-        if (! memberService.checkUniqueMember(dto)){
-            return Result.fail(DefaultApiCode.MEMBER_EXISTS);
-        }
         Member member = new Member();
         BeanUtils.copyProperties(dto, member);
-        member.setPassword(new BCryptPasswordEncoder().encode(member.getPassword()));
-        member.setAvatar("http://img.lxiaocode.com/123456789.png");
-        memberService.saveMember(member);
-        // init a wallet
+
+        if (! memberServiceImpl.checkUnique(member)){
+            return Result.fail(DefaultApiCode.MEMBER_EXISTS);
+        }else {
+            member.setPassword(new BCryptPasswordEncoder().encode(member.getPassword()));
+            member.setAvatar("http://img.lxiaocode.com/123456789.png");
+            memberServiceImpl.saveOne(member);
+        }
+
+        // 初始化钱包
         walletAction.initWalletByMemberId(member.getId());
         return Result.success("注册成功");
     }
@@ -55,8 +57,9 @@ public class MemberAction {
      */
     public JsonResult<MemberInfoVO> getMemberInformation(String memberId) {
         MemberInfoVO vo = new MemberInfoVO();
-        Member member = memberService.findMemberByMemberId(memberId).get();
-        BeanUtils.copyProperties(member, vo);
+        memberServiceImpl.getByUserId(memberId).ifPresent(member -> {
+            BeanUtils.copyProperties(member, vo);
+        });
 
         return Result.success().addResult(vo);
     }
