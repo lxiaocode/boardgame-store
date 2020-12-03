@@ -1,11 +1,11 @@
-package com.lxiaocode.boardgame.auth.service;
+package com.lxiaocode.boardgame.api.security.service;
 
-import com.lxiaocode.boardgame.auth.domain.MemberDetails;
+import com.lxiaocode.boardgame.auth.domain.SecurityUserDetails;
+import com.lxiaocode.boardgame.auth.service.SecurityUserDetailsService;
 import com.lxiaocode.boardgame.member.domain.Member;
 import com.lxiaocode.boardgame.member.service.MemberService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,7 +16,7 @@ import java.util.Optional;
  * @blog http://www.lxiaocode.com/
  */
 @Service
-public class MemberDetailsService implements UserDetailsService {
+public class MemberDetailsService implements SecurityUserDetailsService {
 
     private final MemberService memberService;
 
@@ -28,15 +28,16 @@ public class MemberDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         Member member = memberService.findMemberByUsername(username).orElseGet(Member::new);
 
-        MemberDetails memberDetails = new MemberDetails();
+        SecurityUserDetails memberDetails = new SecurityUserDetails();
         BeanUtils.copyProperties(member, memberDetails);
         // TODO 加载权限
         return memberDetails;
     }
 
-    public Optional<UserDetails> loadUserByMemberId(String memberId) {
+    @Override
+    public Optional<UserDetails> loadUserByUserId(String memberId) {
         return memberService.findMemberByMemberId(memberId).map(member -> {
-            MemberDetails memberDetails = new MemberDetails();
+            SecurityUserDetails memberDetails = new SecurityUserDetails();
             BeanUtils.copyProperties(member, memberDetails);
             // TODO 加载权限
             return memberDetails;

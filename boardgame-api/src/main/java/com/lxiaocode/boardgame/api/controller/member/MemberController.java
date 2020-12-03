@@ -1,6 +1,6 @@
 package com.lxiaocode.boardgame.api.controller.member;
 
-import com.lxiaocode.boardgame.auth.domain.MemberDetails;
+import com.lxiaocode.boardgame.auth.domain.SecurityUserDetails;
 import com.lxiaocode.boardgame.common.response.JsonResult;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.member.biz.MemberAction;
@@ -34,7 +34,7 @@ public class MemberController {
 
     @GetMapping("/info")
     public JsonResult<MemberInfoVO> getMemberInformation(Authentication authentication) {
-        String memberId = ((MemberDetails) authentication.getPrincipal()).getId();
+        String memberId = ((SecurityUserDetails) authentication.getPrincipal()).getId();
         return memberAction.getMemberInformation(memberId);
     }
 }
