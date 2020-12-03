@@ -9,12 +9,12 @@ import java.util.Set;
 
 /**
  * @author lixiaofeng
- * @date 2020/11/17 下午7:50
+ * @date 2020/12/2 下午9:31
  * @blog http://www.lxiaocode.com/
  */
 @Data
-public class MemberDetails implements UserDetails {
-    private static final long serialVersionUID = -1265840161242391691L;
+public class SecurityUserDetails implements UserDetails {
+    private static final long serialVersionUID = 3398843678869098976L;
 
     private String id;
     private String username;

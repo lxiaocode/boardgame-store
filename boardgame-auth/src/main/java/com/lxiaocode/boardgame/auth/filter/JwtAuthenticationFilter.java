@@ -2,7 +2,7 @@ package com.lxiaocode.boardgame.auth.filter;
 
 import com.lxiaocode.boardgame.auth.TokenUtil;
 import com.lxiaocode.boardgame.auth.exception.LoginException;
-import com.lxiaocode.boardgame.auth.service.MemberDetailsService;
+import com.lxiaocode.boardgame.auth.service.SecurityUserDetailsService;
 import com.lxiaocode.boardgame.common.response.DefaultApiCode;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,12 +23,12 @@ import java.io.IOException;
  * @date 2020/11/20 上午10:47
  * @blog http://www.lxiaocode.com/
  */
-public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
+public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     private AuthenticationEntryPoint authenticationEntryPoint;
-    private MemberDetailsService memberDetailsService;
+    private SecurityUserDetailsService securityUserDetailsService;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
 
@@ -48,9 +48,9 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
             this.authenticationEntryPoint.commence(request, response, e);
         }
 
-        memberDetailsService.loadUserByMemberId(userId).ifPresent(memberDetails -> {
+        securityUserDetailsService.loadUserByUserId(userId).ifPresent(userDetails -> {
             UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             // 存入 SecurityContext
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         });
@@ -58,8 +58,8 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
         chain.doFilter(request, response);
     }
 
-    public void setUserDetailsService(MemberDetailsService memberDetailsService) {
-        this.memberDetailsService = memberDetailsService;
+    public void setUserDetailsService(SecurityUserDetailsService securityUserDetailsService) {
+        this.securityUserDetailsService = securityUserDetailsService;
     }
 
     public void setAuthenticationEntryPoint(AuthenticationEntryPoint authenticationEntryPoint) {

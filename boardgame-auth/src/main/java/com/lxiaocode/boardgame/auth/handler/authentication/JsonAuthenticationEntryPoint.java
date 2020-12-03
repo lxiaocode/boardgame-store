@@ -1,4 +1,4 @@
-package com.lxiaocode.boardgame.auth.handler;
+package com.lxiaocode.boardgame.auth.handler.authentication;
 
 import com.lxiaocode.boardgame.auth.exception.LoginException;
 import com.lxiaocode.boardgame.common.response.DefaultApiCode;
