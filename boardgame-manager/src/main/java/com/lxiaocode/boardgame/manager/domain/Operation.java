@@ -16,5 +16,9 @@ public class Operation extends BaseEntity {
 
     private String parentId;
 
+    private String name;
+
     private String url;
+
+    private String note;
 }

@@ -1,5 +1,6 @@
 package com.lxiaocode.boardgame.manager.constant;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
@@ -8,13 +9,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * @blog http://www.lxiaocode.com/
  */
 public enum StatusEnum {
-    DISENABLED("禁用中"),
-    ENABLED("启用中");
+    DISENABLED(-1, "禁用中"),
+    ENABLED(1, "启用中");
     ;
     @JsonValue
     private String name;
+    @EnumValue
+    private Integer code;
 
-    StatusEnum(String name) {
+    StatusEnum(Integer code, String name) {
+        this.code = code;
         this.name = name;
     }
 
@@ -24,5 +28,13 @@ public enum StatusEnum {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
     }
 }
