@@ -1,4 +1,4 @@
-package com.lxiaocode.boardgame.auth.handler.access;
+package com.lxiaocode.boardgame.auth.access;
 
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;

@@ -1,4 +1,4 @@
-package com.lxiaocode.boardgame.auth.handler.access;
+package com.lxiaocode.boardgame.auth.access.handler;
 
 import com.lxiaocode.boardgame.common.response.DefaultApiCode;
 import com.lxiaocode.boardgame.common.response.Result;

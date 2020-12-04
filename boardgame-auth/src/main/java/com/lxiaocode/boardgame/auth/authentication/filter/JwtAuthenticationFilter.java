@@ -1,8 +1,8 @@
-package com.lxiaocode.boardgame.auth.filter;
+package com.lxiaocode.boardgame.auth.authentication.filter;
 
 import com.lxiaocode.boardgame.auth.TokenUtil;
 import com.lxiaocode.boardgame.auth.exception.LoginException;
-import com.lxiaocode.boardgame.auth.service.SecurityUserDetailsService;
+import com.lxiaocode.boardgame.auth.authentication.SecurityUserDetailsService;
 import com.lxiaocode.boardgame.common.response.DefaultApiCode;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

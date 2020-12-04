@@ -1,4 +1,4 @@
-package com.lxiaocode.boardgame.auth.filter;
+package com.lxiaocode.boardgame.auth.authentication.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;

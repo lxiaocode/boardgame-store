@@ -1,7 +1,7 @@
-package com.lxiaocode.boardgame.auth.handler.authentication;
+package com.lxiaocode.boardgame.auth.authentication.handler;
 
 import com.lxiaocode.boardgame.auth.TokenUtil;
-import com.lxiaocode.boardgame.auth.domain.SecurityUserDetails;
+import com.lxiaocode.boardgame.auth.authentication.SecurityUserDetails;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.common.util.ResponseUtil;
 import org.springframework.security.core.Authentication;

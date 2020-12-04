@@ -1,4 +1,4 @@
-package com.lxiaocode.boardgame.auth.domain;
+package com.lxiaocode.boardgame.auth.authentication;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

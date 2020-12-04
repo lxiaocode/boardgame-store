@@ -1,12 +1,12 @@
 package com.lxiaocode.boardgame.auth.config;
 
-import com.lxiaocode.boardgame.auth.filter.JsonAuthenticationFilter;
-import com.lxiaocode.boardgame.auth.filter.JwtAuthenticationFilter;
-import com.lxiaocode.boardgame.auth.handler.access.JsonAccessDeniedHandler;
-import com.lxiaocode.boardgame.auth.handler.authentication.JsonAuthenticationEntryPoint;
-import com.lxiaocode.boardgame.auth.handler.authentication.JsonAuthenticationFailureHandler;
-import com.lxiaocode.boardgame.auth.handler.authentication.JwtAuthenticationSuccessHandler;
-import com.lxiaocode.boardgame.auth.service.SecurityUserDetailsService;
+import com.lxiaocode.boardgame.auth.authentication.filter.JsonAuthenticationFilter;
+import com.lxiaocode.boardgame.auth.authentication.filter.JwtAuthenticationFilter;
+import com.lxiaocode.boardgame.auth.access.handler.JsonAccessDeniedHandler;
+import com.lxiaocode.boardgame.auth.authentication.handler.JsonAuthenticationEntryPoint;
+import com.lxiaocode.boardgame.auth.authentication.handler.JsonAuthenticationFailureHandler;
+import com.lxiaocode.boardgame.auth.authentication.handler.JwtAuthenticationSuccessHandler;
+import com.lxiaocode.boardgame.auth.authentication.SecurityUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
