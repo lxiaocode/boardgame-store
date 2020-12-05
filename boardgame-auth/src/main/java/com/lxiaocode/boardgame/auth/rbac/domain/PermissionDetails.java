@@ -26,5 +26,5 @@ public class PermissionDetails extends BaseEntity implements IPermissionDetails 
     private String url;
 
     @TableField(exist = false)
-    private List<Role> roles;
+    private List<IRole> roles;
 }

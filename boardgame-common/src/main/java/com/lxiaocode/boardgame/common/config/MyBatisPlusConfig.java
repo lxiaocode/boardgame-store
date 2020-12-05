@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @blog http://www.lxiaocode.com/
  */
 @Configuration
-@MapperScan("com.lxiaocode.boardgame.*.domain")
+@MapperScan({"com.lxiaocode.boardgame.*.domain", "com.lxiaocode.boardgame.auth.rbac.domain"})
 public class MyBatisPlusConfig {
 
     @Bean

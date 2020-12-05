@@ -1,8 +1,8 @@
 package com.lxiaocode.boardgame.auth.access.handler;
 
 import com.lxiaocode.boardgame.auth.rbac.domain.IPermissionDetails;
-import com.lxiaocode.boardgame.auth.rbac.service.OperationDetailsService;
-import com.lxiaocode.boardgame.auth.rbac.service.impl.OperationDetailsServiceImpl;
+import com.lxiaocode.boardgame.auth.rbac.service.PermissionDetailsService;
+import com.lxiaocode.boardgame.auth.rbac.service.impl.PermissionDetailsServiceImpl;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -23,7 +23,7 @@ import java.util.Set;
 
 public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
-    private OperationDetailsService operationDetailsService = new OperationDetailsServiceImpl();
+    private PermissionDetailsService permissionDetailsService = new PermissionDetailsServiceImpl();
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
     
     @Override
@@ -32,7 +32,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         // 获取请求地址
         String requestUrl = ((FilterInvocation) object).getRequestUrl();
         // 加载所有接口许可
-        List<IPermissionDetails> IPermissionDetails = operationDetailsService.loadPermissionAndRoles();
+        List<IPermissionDetails> IPermissionDetails = permissionDetailsService.loadPermissionAndRoles();
         // 遍历所有许可，加载所需角色
         Set<String> set = new HashSet<>();
         for (IPermissionDetails permission : IPermissionDetails){
@@ -56,7 +56,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         return false;
     }
 
-    public void setOperationDetailsService(OperationDetailsService operationDetailsService) {
-        this.operationDetailsService = operationDetailsService;
+    public void setOperationDetailsService(PermissionDetailsService permissionDetailsService) {
+        this.permissionDetailsService = permissionDetailsService;
     }
 }

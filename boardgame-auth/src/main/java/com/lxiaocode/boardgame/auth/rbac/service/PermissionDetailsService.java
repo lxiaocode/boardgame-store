@@ -9,6 +9,6 @@ import java.util.List;
  * @date 2020/12/3 下午10:27
  * @blog http://www.lxiaocode.com/
  */
-public interface OperationDetailsService {
+public interface PermissionDetailsService {
     List<IPermissionDetails> loadPermissionAndRoles();
 }

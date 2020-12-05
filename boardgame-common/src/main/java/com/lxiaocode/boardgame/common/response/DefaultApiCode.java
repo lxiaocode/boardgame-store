@@ -20,8 +20,8 @@ public enum DefaultApiCode implements ApiCode {
 
     CALIBRATION_FAIL("A0400", "用户请求参数错误");
 
-    private String code;
-    private String message;
+    private final String code;
+    private final String message;
 
     DefaultApiCode(String code, String message) {
         this.code = code;
