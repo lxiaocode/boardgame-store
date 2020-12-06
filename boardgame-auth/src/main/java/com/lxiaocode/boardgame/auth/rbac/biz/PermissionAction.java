@@ -2,7 +2,7 @@ package com.lxiaocode.boardgame.auth.rbac.biz;
 
 import com.lxiaocode.boardgame.auth.rbac.PermissionEnum;
 import com.lxiaocode.boardgame.auth.rbac.domain.PermissionDetails;
-import com.lxiaocode.boardgame.auth.rbac.service.impl.PermissionService;
+import com.lxiaocode.boardgame.auth.rbac.service.impl.PermissionDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class PermissionAction {
 
     @Autowired
-    private PermissionService permissionService;
+    private PermissionDetailsServiceImpl permissionService;
 
     public void addition(String resourceId, PermissionEnum type) {
         PermissionDetails permission = new PermissionDetails();

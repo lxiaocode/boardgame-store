@@ -17,8 +17,8 @@ import javax.validation.Valid;
  * @blog http://www.lxiaocode.com/
  */
 @RestController
-@RequestMapping("/auth/rbac/operation")
-public class RbacController {
+@RequestMapping("/auth/operation")
+public class OperationController {
     @Autowired
     private OperationAction operationAction;
 

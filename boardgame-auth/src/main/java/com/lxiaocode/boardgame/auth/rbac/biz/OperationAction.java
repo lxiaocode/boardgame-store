@@ -36,7 +36,6 @@ public class OperationAction {
         Operation operation = new Operation();
         BeanUtils.copyProperties(additionOperationDTO, operation);
         operationService.saveOne(operation);
-        // TODO addition permission
         permissionAction.addition(operation.getId(), PermissionEnum.OPERATION);
 
         return Result.success().addResult(operation);
