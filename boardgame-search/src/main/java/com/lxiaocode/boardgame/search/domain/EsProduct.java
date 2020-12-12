@@ -1,11 +1,13 @@
 package com.lxiaocode.boardgame.search.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lxiaocode.boardgame.product.constant.ProductStatusEnum;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -44,6 +46,7 @@ public class EsProduct implements Serializable {
     @Field(type = FieldType.Keyword)
     private ProductStatusEnum status;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
 
     private EsProductParameter parameter;

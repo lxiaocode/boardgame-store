@@ -39,15 +39,16 @@ public class ProductAction {
      * @param productDTO
      * @return
      */
-    public Result addProduct(ProductDTO productDTO) {
+    @Transactional
+    public JsonResult<Product> addProduct(ProductDTO productDTO) {
         Product product = new Product();
         BeanUtils.copyProperties(productDTO, product);
         product.setStatus(ProductStatusEnum.UNDER_REVIEW);
         productService.saveProduct(product);
         // 初始化库存
-        stockpileAction.initStockpile(product.getId());
+        stockpileAction.initStockpile(product.getId(), product.getTitle());
 
-        return Result.success();
+        return Result.success().addResult(product);
     }
 
     /**

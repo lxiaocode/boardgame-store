@@ -29,9 +29,10 @@ public class StockpileAction {
      * 初始化库存
      * @param productId
      */
-    public void initStockpile(String productId) {
+    public void initStockpile(String productId, String productTitle) {
         Stockpile stockpile = new Stockpile();
         stockpile.setProductId(productId);
+        stockpile.setProductTitle(productTitle);
         stockpile.setAmount(0);
         stockpile.setFrozen(0);
 

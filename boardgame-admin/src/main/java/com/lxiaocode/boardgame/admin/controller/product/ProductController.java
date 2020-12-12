@@ -4,6 +4,7 @@ import com.lxiaocode.boardgame.common.domain.vo.Page;
 import com.lxiaocode.boardgame.common.response.JsonResult;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.product.biz.ProductAction;
+import com.lxiaocode.boardgame.product.domain.Product;
 import com.lxiaocode.boardgame.product.domain.dto.ProductDTO;
 import com.lxiaocode.boardgame.search.biz.EsProductAction;
 import com.lxiaocode.boardgame.search.domain.EsProduct;
@@ -32,7 +33,7 @@ public class ProductController {
      * @return
      */
     @PostMapping("")
-    public Result addProduct(@RequestBody ProductDTO productDTO) {
+    public JsonResult<Product> addProduct(@RequestBody ProductDTO productDTO) {
         return productAction.addProduct(productDTO);
     }
 

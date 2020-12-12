@@ -2,8 +2,8 @@ package com.lxiaocode.boardgame.admin.security;
 
 import com.lxiaocode.boardgame.admin.security.service.ManagerDetailsService;
 import com.lxiaocode.boardgame.auth.config.WebSecurityConfig;
-import com.lxiaocode.boardgame.auth.handler.access.RoleBasedAccessDecisionManager;
-import com.lxiaocode.boardgame.auth.handler.access.UrlFilterInvocationSecurityMetadataSource;
+import com.lxiaocode.boardgame.auth.access.RoleBasedAccessDecisionManager;
+import com.lxiaocode.boardgame.auth.access.handler.UrlFilterInvocationSecurityMetadataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -36,7 +36,13 @@ public class SecurityConfig extends WebSecurityConfig {
         // 忽略 POST 请求
         web.ignoring().antMatchers(
                 HttpMethod.POST,
-                "/admin/manager/register");
+                "/admin/manager/register",
+                "/admin/product/**");
+        web.ignoring().antMatchers(
+                HttpMethod.PUT,
+                "/admin/product/**");
+        web.ignoring().antMatchers(
+                "/admin/product/**");
     }
 
     @Override

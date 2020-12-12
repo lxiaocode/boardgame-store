@@ -1,7 +1,7 @@
 package com.lxiaocode.boardgame.admin.security.service;
 
-import com.lxiaocode.boardgame.auth.domain.SecurityUserDetails;
-import com.lxiaocode.boardgame.auth.service.SecurityUserDetailsService;
+import com.lxiaocode.boardgame.auth.authentication.SecurityUserDetails;
+import com.lxiaocode.boardgame.auth.authentication.SecurityUserDetailsService;
 import com.lxiaocode.boardgame.manager.domain.Manager;
 import com.lxiaocode.boardgame.manager.service.ManagerServiceImpl;
 import org.springframework.beans.BeanUtils;
