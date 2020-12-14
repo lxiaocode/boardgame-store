@@ -29,6 +29,7 @@ public class RoleController {
         return roleAction.addition(dto);
     }
 
+    @PostMapping("/user")
     public Result additionRoleToUser(@RequestBody @Valid AdditionRoleToUserDTO dto){
         return roleAction.additionToUser(dto);
     }

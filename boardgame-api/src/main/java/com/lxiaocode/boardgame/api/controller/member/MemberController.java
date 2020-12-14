@@ -1,6 +1,6 @@
 package com.lxiaocode.boardgame.api.controller.member;
 
-import com.lxiaocode.boardgame.auth.domain.SecurityUserDetails;
+import com.lxiaocode.boardgame.auth.authentication.SecurityUserDetails;
 import com.lxiaocode.boardgame.common.response.JsonResult;
 import com.lxiaocode.boardgame.common.response.Result;
 import com.lxiaocode.boardgame.member.biz.MemberAction;

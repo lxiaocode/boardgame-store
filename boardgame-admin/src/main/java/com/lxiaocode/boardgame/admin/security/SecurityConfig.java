@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfig {
                 HttpMethod.PUT,
                 "/admin/product/**");
         web.ignoring().antMatchers(
-                "/admin/product/**");
+                "/**");
     }
 
     @Override

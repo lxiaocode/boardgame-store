@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lxiaocode.boardgame.common.service.IUserService;
 import com.lxiaocode.boardgame.manager.domain.Manager;
 import com.lxiaocode.boardgame.manager.domain.ManagerMapper;
-import com.lxiaocode.boardgame.manager.domain.dto.RegisterDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

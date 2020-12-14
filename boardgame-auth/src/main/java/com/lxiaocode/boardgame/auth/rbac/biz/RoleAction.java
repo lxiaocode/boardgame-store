@@ -2,10 +2,12 @@ package com.lxiaocode.boardgame.auth.rbac.biz;
 
 import com.lxiaocode.boardgame.auth.rbac.domain.Role;
 import com.lxiaocode.boardgame.auth.rbac.domain.RolePermissionRelation;
+import com.lxiaocode.boardgame.auth.rbac.domain.UserRoleRelation;
 import com.lxiaocode.boardgame.auth.rbac.domain.dto.AdditionRoleDTO;
 import com.lxiaocode.boardgame.auth.rbac.domain.dto.AdditionRoleToUserDTO;
 import com.lxiaocode.boardgame.auth.rbac.service.impl.RolePermissionRelationService;
 import com.lxiaocode.boardgame.auth.rbac.service.impl.RoleService;
+import com.lxiaocode.boardgame.auth.rbac.service.impl.UserRoleRelationService;
 import com.lxiaocode.boardgame.common.response.Result;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class RoleAction {
     private RoleService roleService;
     @Autowired
     private RolePermissionRelationService rolePermissionRelationService;
+    @Autowired
+    private UserRoleRelationService userRoleRelationService;
 
     public Result addition(AdditionRoleDTO additionRoleDTO) {
         // 校验唯一性
@@ -53,7 +57,16 @@ public class RoleAction {
     }
 
     public Result additionToUser(AdditionRoleToUserDTO additionRoleToUserDTO) {
-        // TODO 11:25
-        return null;
+
+        Set<UserRoleRelation> collect = Arrays.stream(additionRoleToUserDTO.getRoleIds()).map(role -> {
+            UserRoleRelation userRoleRelation = new UserRoleRelation();
+            userRoleRelation.setUserId(additionRoleToUserDTO.getUserId());
+            userRoleRelation.setRoleId(role);
+
+            return userRoleRelation;
+        }).collect(Collectors.toSet());
+        userRoleRelationService.saveBatch(collect);
+
+        return Result.success();
     }
 }

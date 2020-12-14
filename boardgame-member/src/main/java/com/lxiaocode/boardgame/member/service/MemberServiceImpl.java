@@ -22,9 +22,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 
     @Override
     public Optional<Member> getByUserId(String userId) {
-        return super.lambdaQuery()
-                .eq(Member::getId, userId)
-                .oneOpt();
+        return Optional.ofNullable(super.getById(userId));
     }
 
     @Override
